@@ -9,6 +9,7 @@ interface Ingredients {
 }
 
 interface Recipe {
+    nutrition: any;
     id: number;
     name: string;
     cuisine: string;
@@ -88,6 +89,30 @@ export default function FoodDataScreen() {
                                         <View style={styles.ingredientItem}>
                                             <Text style={styles.ingredientText}>Servings For</Text>
                                             <Text style={styles.ingredientText}>{oneFood ? oneFood.servings : ""}</Text>
+                                        </View>
+                                    </View>
+
+                                    <View>
+                                        <Text style={styles.titleText}>Nutrition</Text>
+
+                                        <View style={styles.ingredientItem}>
+                                            <Text style={styles.ingredientText}>Calories</Text>
+                                            <Text style={styles.ingredientText}>{oneFood ? oneFood.nutrition.calories : ""}</Text>
+                                        </View>
+
+                                        <View style={styles.ingredientItem}>
+                                            <Text style={styles.ingredientText}>Protein</Text>
+                                            <Text style={styles.ingredientText}>{oneFood ? oneFood.nutrition.protein : ""} </Text>
+                                        </View>
+
+                                        <View style={styles.ingredientItem}>
+                                            <Text style={styles.ingredientText}>Fat</Text>
+                                            <Text style={styles.ingredientText}>{oneFood ? oneFood.nutrition.fat : ""} </Text>
+                                        </View>
+
+                                        <View style={styles.ingredientItem}>
+                                            <Text style={styles.ingredientText}>Carbohydrates</Text>
+                                            <Text style={styles.ingredientText}>{oneFood ? oneFood.nutrition.carbohydrates : ""}</Text>
                                         </View>
                                     </View>
                                 </View>
