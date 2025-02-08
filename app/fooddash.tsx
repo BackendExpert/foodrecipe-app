@@ -54,7 +54,7 @@ export default function FoodDashScreen() {
                         renderItem={({ item }) => {
                             if (item.name.toLowerCase().includes("pizza")) {
                                 return (
-                                    <Link href={'/fooddash'}>
+                                    <Link href={{ pathname: "/fooddata", params: { id: item.id } }} asChild>
 
                                             <TouchableOpacity style={styles.item}>
                                                 <Image source={pizzaImg} style={styles.itemImg}/>
