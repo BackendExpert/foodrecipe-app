@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Link, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { Text, View, StyleSheet, ImageBackground, Image, TouchableOpacity, FlatList } from "react-native";
+import { Text, View, StyleSheet, ImageBackground, Image, ScrollView, FlatList } from "react-native";
 
 
 interface ingredients {
@@ -34,7 +34,7 @@ export default function FoodDataScreen() {
         <View style={styles.container}>
             <ImageBackground source={oneFoodBG} style={styles.background} resizeMode="cover">
                 <View style={styles.overlay}>
-                    <View style={styles.foodContent}>
+                    <ScrollView contentContainerStyle={styles.foodContent}>
                         <View style={styles.headerFood}>
                             <View style={{ marginLeft: 10 }}>
                                 <Text style={styles.HeaderTitle}>{oneFood ? oneFood.name : ""}</Text>
@@ -67,7 +67,7 @@ export default function FoodDataScreen() {
                             <Text style={styles.titleText}>Instructions</Text>
                             <Text style={styles.insText}>{oneFood ? oneFood.instructions : ''}</Text>
                         </View>
-                    </View>
+                    </ScrollView>
                 </View>
             </ImageBackground>
         </View>
@@ -95,7 +95,9 @@ const styles = StyleSheet.create({
         backgroundColor: "rgba(0, 0, 0, 0.6)", 
     },
     foodContent:{
-        marginHorizontal: 20
+        marginHorizontal: 20,
+        flexGrow: 1,
+        paddingBottom: 20,
     },
     headerFood: {
         paddingTop: 30,
