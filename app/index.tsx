@@ -23,13 +23,13 @@ export default function Index() {
           <View style={styles.footer}>
             {/* TouchableOpacity for Start Cooking */}
             <TouchableOpacity>
-              <Link href="/about" style={styles.footerBtn}>
+              <Link href="/fooddash" style={styles.footerBtn}>
                 <Text style={styles.footbtnText}>Start Cooking</Text>
               </Link>
             </TouchableOpacity>
             <Text style={styles.footercontent}>v1.0.0-10 Feb 2025</Text>            
             <Text style={styles.footercontent}>
-              Developed using <Link href={'https://github.com/BackendExpert'} style={{ color: "orange"}}>JKRecipeAPI</Link>
+              Developed using <Link href={'https://rapidapi.com/jehankandy/api/jkrecipeapi2'} style={{ color: "orange"}}>JKRecipeAPI</Link>
             </Text>
           </View>
         </View>
@@ -58,8 +58,6 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0, // Full screen
     backgroundColor: "rgba(0, 0, 0, 0.6)", // Optional translucent overlay
-
-
   },
   headerpart: {
     paddingTop: 40,    
