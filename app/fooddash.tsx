@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Link } from "expo-router";
 import { useEffect, useState } from "react";
-import { Text, View, StyleSheet, FlatList, ImageBackground, Image, TouchableOpacity } from "react-native";
+import { Text, View, StyleSheet, FlatList, ImageBackground, Image, TouchableOpacity, TextInput } from "react-native";
 
 interface Recipe {
     id: number;
@@ -12,9 +12,11 @@ interface Recipe {
 export default function FoodDashScreen() {
     const image = require("../assets/images/DashBG.jpg");
     const pizzaImg = require("../assets/images/Pizza.jpg");
-    const RightArrow = require("../assets/images/RightArrow.png");
-    const [apidata, setApiData] = useState<Recipe[]>([]);
+    const otherfoods = require("../assets/images/OtherFoods.jpg");
 
+    const [apidata, setApiData] = useState<Recipe[]>([]);
+    const [searchQuery, setSearchQuery] = useState<string>("");
+    
     useEffect(() => {
         axios
             .get("https://jkrecipeapi.vercel.app/api/alldata")
@@ -22,7 +24,14 @@ export default function FoodDashScreen() {
             .catch((err) => console.log(err)); 
     }, []);
 
-    const hasPizza = apidata.some(item => item.name.toLowerCase().includes("pizza"));
+    // const filteredData = apidata.filter(item =>
+    //     item.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
+    //     searchQuery.length >= 1
+    // );
+
+    const filteredData = searchQuery.length >= 2 
+    ? apidata.filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase())) 
+    : apidata; 
 
     return (
         <View style={styles.container}>
@@ -31,9 +40,16 @@ export default function FoodDashScreen() {
                     <View style={styles.dashHeader}>
                         <Text style={styles.dashHeaderText}>Food Recipes</Text>
                     </View>
+                    <TextInput
+                        style={styles.searchInput}
+                        placeholder="Search recipes..."
+                        placeholderTextColor="white"
+                        value={searchQuery}
+                        onChangeText={setSearchQuery}
+                    />
                     <View style={styles.foodrecipes}>
                     <FlatList
-                        data={apidata} 
+                        data={filteredData} 
                         keyExtractor={(item) => item.id.toString()} 
                         renderItem={({ item }) => {
                             if (item.name.toLowerCase().includes("pizza")) {
@@ -53,7 +69,23 @@ export default function FoodDashScreen() {
                                     </Link>
                                 );
                             }
-                            return null;
+                            else{
+                                return (
+                                    <Link href={'/fooddash'}>
+
+                                            <TouchableOpacity style={styles.item}>
+                                                <Image source={otherfoods} style={styles.itemImg}/>
+                                                <View>
+                                                    <Text style={styles.foodRecipeText}>{item.name}</Text> 
+                                                    <View style={styles.recipeData}>
+                                                        <Text style={styles.otherItemText}>{item.cuisine}</Text>
+                                                    </View>
+                                                </View>
+                                            </TouchableOpacity>
+
+                                    </Link>
+                                );
+                            }
                         }}
                     />
                     </View>
@@ -70,7 +102,8 @@ const styles = StyleSheet.create({
     },
     foodrecipes: {
         marginTop: 40,
-        marginBottom: 120
+        marginBottom: 160,
+        marginHorizontal: 10
     },
     otherItemText:{
         color: 'white'
@@ -121,5 +154,13 @@ const styles = StyleSheet.create({
         color: 'orange',
         textAlign: 'center',
         fontSize: 15
+    },
+    searchInput: {
+        marginTop: 20,
+        marginHorizontal: 20,
+        padding: 20,
+        borderRadius: 10,
+        backgroundColor: 'rgba(103, 102, 102, 0.7)',
+        color: 'white',
     }
 });
