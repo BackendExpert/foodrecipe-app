@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { Text, View, StyleSheet, ImageBackground, Image, FlatList, ScrollView } from "react-native";
+import { Text, View, StyleSheet, ImageBackground, Image, FlatList } from "react-native";
 
 interface Ingredient {
     name: string;
@@ -9,11 +9,16 @@ interface Ingredient {
 }
 
 interface Recipe {
+    nutrition: any;
     id: number;
     name: string;
     cuisine: string;
     instructions: string;
     ingredients: Ingredient[];
+    prepTime: string,
+    cookTime: string,
+    totalTime: string,
+    servings: string,
 }
 
 export default function FoodDataScreen() {
@@ -33,12 +38,26 @@ export default function FoodDataScreen() {
             });
     }, [id]);
 
+    if (!oneFoodData) {
+        return <Text style={styles.defaultText}>No data found</Text>;
+    }
+
+    const renderIngredients = ({ item }: { item: Ingredient }) => (
+        <View style={styles.Ingredients}>
+            <Text style={styles.instText}>{item.name}</Text>
+            <Text style={styles.instText}>{item.quantity}</Text>
+        </View>
+    );
+
     return (
         <View style={styles.container}>
             <ImageBackground source={OneFoodBG} style={styles.background} resizeMode="cover">
                 <View style={styles.overlay}>
-                    <ScrollView style={styles.foodData}>
-                        {oneFoodData ? (
+                    <FlatList
+                        style={styles.foodData}
+                        data={[oneFoodData]} 
+                        keyExtractor={(item) => item.id.toString()}
+                        renderItem={() => (
                             <View>
                                 <Text style={styles.foodTitle}>{oneFoodData.name}</Text>
                                 <Text style={{ fontSize: 15, color: 'white' }}>{oneFoodData.cuisine}</Text>
@@ -46,22 +65,16 @@ export default function FoodDataScreen() {
                                     source={oneFoodData.name.toLowerCase().includes("pizza") ? pizzaImg : otherfoods}
                                     style={styles.foodImg}
                                 />
-
                                 <View style={styles.foodContent}>
                                     <View>
                                         <Text style={styles.foodSubTitle}>Ingredients</Text>
-
-                                        <FlatList 
+                                        <FlatList
                                             data={oneFoodData.ingredients}
                                             keyExtractor={(item, index) => index.toString()}
-                                            renderItem={({ item }) => (
-                                                <View style={styles.Ingredients}>
-                                                    <Text style={styles.instText}>{item.name}</Text>
-                                                    <Text style={styles.instText}>{item.quantity}</Text>
-                                                </View>
-                                            )}
+                                            renderItem={renderIngredients}
                                         />
                                     </View>
+
                                     <View>
                                         <Text style={styles.foodSubTitle}>Instructions</Text>
                                         <Text style={styles.instText}>{oneFoodData.instructions}</Text>
@@ -71,27 +84,45 @@ export default function FoodDataScreen() {
                                         <Text style={styles.foodSubTitle}>Cooking Time and Servings</Text>
                                         <View style={styles.Ingredients}>
                                             <Text style={styles.instText}>Prepare Time</Text>
-                                            <Text style={styles.instText}>15 min</Text>
+                                            <Text style={styles.instText}>{oneFoodData.prepTime} min</Text>
                                         </View>
                                         <View style={styles.Ingredients}>
                                             <Text style={styles.instText}>Cooking Time</Text>
-                                            <Text style={styles.instText}>20 min</Text>
+                                            <Text style={styles.instText}>{oneFoodData.cookTime} min</Text>
                                         </View>
                                         <View style={styles.Ingredients}>
                                             <Text style={styles.instText}>Total Time</Text>
-                                            <Text style={styles.instText}>35 min</Text>
+                                            <Text style={styles.instText}>{oneFoodData.totalTime} min</Text>
                                         </View>
                                         <View style={styles.Ingredients}>
                                             <Text style={styles.instText}>Servings</Text>
-                                            <Text style={styles.instText}>4</Text>
+                                            <Text style={styles.instText}>{oneFoodData.servings}</Text>
+                                        </View>
+                                    </View>
+
+                                    <View>
+                                        <Text style={styles.foodSubTitle}>Cooking Time and Servings</Text>
+                                        <View style={styles.Ingredients}>
+                                            <Text style={styles.instText}>Calories</Text>
+                                            <Text style={styles.instText}>{oneFoodData.nutrition.calories}</Text>
+                                        </View>
+                                        <View style={styles.Ingredients}>
+                                            <Text style={styles.instText}>Protein</Text>
+                                            <Text style={styles.instText}>{oneFoodData.nutrition.protein}</Text>
+                                        </View>
+                                        <View style={styles.Ingredients}>
+                                            <Text style={styles.instText}>Fat</Text>
+                                            <Text style={styles.instText}>{oneFoodData.nutrition.fat}</Text>
+                                        </View>
+                                        <View style={styles.Ingredients}>
+                                            <Text style={styles.instText}>Carbohydrates</Text>
+                                            <Text style={styles.instText}>{oneFoodData.nutrition.carbohydrates}</Text>
                                         </View>
                                     </View>
                                 </View>
                             </View>
-                        ) : (
-                            <Text style={styles.defaultText}>No data found</Text>
                         )}
-                    </ScrollView>
+                    />
                 </View>
             </ImageBackground>
         </View>
