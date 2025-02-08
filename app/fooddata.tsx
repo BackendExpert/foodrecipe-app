@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { Text, View, StyleSheet, ImageBackground, Image, FlatList, TouchableOpacity } from "react-native";
+import { Text, View, StyleSheet, ImageBackground, Image, FlatList, ScrollView } from "react-native";
 
 interface Ingredient {
     name: string;
@@ -37,7 +37,7 @@ export default function FoodDataScreen() {
         <View style={styles.container}>
             <ImageBackground source={OneFoodBG} style={styles.background} resizeMode="cover">
                 <View style={styles.overlay}>
-                    <View style={styles.foodData}>
+                    <ScrollView style={styles.foodData}>
                         {oneFoodData ? (
                             <View>
                                 <Text style={styles.foodTitle}>{oneFoodData.name}</Text>
@@ -67,14 +67,31 @@ export default function FoodDataScreen() {
                                         <Text style={styles.instText}>{oneFoodData.instructions}</Text>
                                     </View>
 
+                                    <View>
+                                        <Text style={styles.foodSubTitle}>Cooking Time and Servings</Text>
+                                        <View style={styles.Ingredients}>
+                                            <Text style={styles.instText}>Prepare Time</Text>
+                                            <Text style={styles.instText}>15 min</Text>
+                                        </View>
+                                        <View style={styles.Ingredients}>
+                                            <Text style={styles.instText}>Cooking Time</Text>
+                                            <Text style={styles.instText}>20 min</Text>
+                                        </View>
+                                        <View style={styles.Ingredients}>
+                                            <Text style={styles.instText}>Total Time</Text>
+                                            <Text style={styles.instText}>35 min</Text>
+                                        </View>
+                                        <View style={styles.Ingredients}>
+                                            <Text style={styles.instText}>Servings</Text>
+                                            <Text style={styles.instText}>4</Text>
+                                        </View>
+                                    </View>
                                 </View>
                             </View>
                         ) : (
                             <Text style={styles.defaultText}>No data found</Text>
                         )}
-
-
-                    </View>
+                    </ScrollView>
                 </View>
             </ImageBackground>
         </View>
@@ -104,6 +121,7 @@ const styles = StyleSheet.create({
     foodData: {
         marginTop: 30,
         marginHorizontal: 20,
+        marginBottom: 50
     },
     foodTitle: {
         color: 'orange',
@@ -111,7 +129,7 @@ const styles = StyleSheet.create({
     },
     foodImg: {
         width: '100%',
-        height: '30%',
+        height: 200,
         marginTop: 20,
         borderRadius: 20
     },
@@ -129,7 +147,7 @@ const styles = StyleSheet.create({
         marginVertical: 20
     },
     Ingredients: {
-        backgroundColor: 'rgba(112,112,112, 0.5)",',
+        backgroundColor: 'rgba(112,112,112, 0.5)', 
         padding: 15,
         borderRadius: 15,
         marginVertical: 4,
