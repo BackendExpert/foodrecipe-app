@@ -14,6 +14,10 @@ interface Recipe {
     cuisine: string;
     instructions: string;
     ingredients: Ingredients[];
+    prepTime: string,
+    cookTime: string,
+    totalTime: string,
+    servings: string,
 }
 
 export default function FoodDataScreen() {
@@ -34,40 +38,63 @@ export default function FoodDataScreen() {
         <View style={styles.container}>
             <ImageBackground source={oneFoodBG} style={styles.background} resizeMode="cover">
                 <View style={styles.overlay}>
-                    <FlatList
-                        data={oneFood ? oneFood.ingredients : []}
-                        keyExtractor={(item, index) => index.toString()}
-                        contentContainerStyle={styles.foodContent} // Added to manage spacing
-                        ListHeaderComponent={
-                            <View>
-                                <View style={styles.headerFood}>
-                                    <Text style={styles.HeaderTitle}>{oneFood ? oneFood.name : ""}</Text>
-                                    <Text style={styles.subHeader}>{oneFood ? oneFood.cuisine : ""}</Text>
-                                </View>
-                                {oneFood && oneFood.name ? (
-                                    <Image style={styles.FoodImg} source={oneFood.name.toLowerCase().includes("pizza") ? pizzaImg : otherFoods} />
-                                ) : (
-                                    <Text style={styles.loadingText}>Loading Image...</Text>
-                                )}
-                            </View>
-                        }
-                        renderItem={({ item }) => (
-                            <View style={styles.ingredientItem}>
-                                <Text style={styles.ingredientText}>{item.name}</Text>
-                                <Text style={styles.ingredientText}>{item.quantity}</Text>
-                            </View>
-                        )}
-                        ListFooterComponent={
-                            <View>
-                                <Text style={styles.titleText}>Instructions</Text>
-                                <Text style={styles.insText}>{oneFood ? oneFood.instructions : ""}</Text>
-
+                    <View style={styles.foodContent}>
+                        <FlatList
+                            data={oneFood ? oneFood.ingredients : []}
+                            keyExtractor={(item, index) => index.toString()}
+                            contentContainerStyle={styles.foodContent} // Added to manage spacing
+                            ListHeaderComponent={
                                 <View>
-                                    <Text style={styles.titleText}>Cooking Time and Servings</Text>
+                                    <View style={styles.headerFood}>
+                                        <Text style={styles.HeaderTitle}>{oneFood ? oneFood.name : ""}</Text>
+                                        <Text style={styles.subHeader}>{oneFood ? oneFood.cuisine : ""}</Text>
+                                    </View>
+                                    {oneFood && oneFood.name ? (
+                                        <Image style={styles.FoodImg} source={oneFood.name.toLowerCase().includes("pizza") ? pizzaImg : otherFoods} />
+                                    ) : (
+                                        <Text style={styles.loadingText}>Loading Image...</Text>
+                                    )}
                                 </View>
-                            </View>
-                        }
-                    />
+                            }
+                            renderItem={({ item }) => (
+                                <View style={styles.ingredientItem}>
+                                    <Text style={styles.ingredientText}>{item.name}</Text>
+                                    <Text style={styles.ingredientText}>{item.quantity}</Text>
+                                </View>
+                            )}
+                            ListFooterComponent={
+                                <View>
+                                    <Text style={styles.titleText}>Instructions</Text>
+                                    <Text style={styles.insText}>{oneFood ? oneFood.instructions : ""}</Text>
+
+                                    <View>
+                                        <Text style={styles.titleText}>Cooking Time and Servings</Text>
+
+                                        <View style={styles.ingredientItem}>
+                                            <Text style={styles.ingredientText}>Prepare Time</Text>
+                                            <Text style={styles.ingredientText}>{oneFood ? oneFood.prepTime : ""} min</Text>
+                                        </View>
+
+                                        <View style={styles.ingredientItem}>
+                                            <Text style={styles.ingredientText}>Prepare Time</Text>
+                                            <Text style={styles.ingredientText}>{oneFood ? oneFood.prepTime : ""} min</Text>
+                                        </View>
+
+                                        <View style={styles.ingredientItem}>
+                                            <Text style={styles.ingredientText}>Cooking Time</Text>
+                                            <Text style={styles.ingredientText}>{oneFood ? oneFood.cookTime : ""} min</Text>
+                                        </View>
+
+                                        <View style={styles.ingredientItem}>
+                                            <Text style={styles.ingredientText}>Servings For</Text>
+                                            <Text style={styles.ingredientText}>{oneFood ? oneFood.servings : ""}</Text>
+                                        </View>
+                                    </View>
+                                </View>
+                            }
+                        />
+                    </View>
+
                 </View>
             </ImageBackground>
         </View>
@@ -91,7 +118,7 @@ const styles = StyleSheet.create({
         backgroundColor: "rgba(0, 0, 0, 0.6)",
     },
     foodContent: {
-        paddingHorizontal: 20,
+        paddingHorizontal: 10,
         paddingBottom: 20,
     },
     headerFood: {
