@@ -19,20 +19,23 @@ export default function FoodDashScreen() {
 
     return (
         <View style={styles.container}>
-            <FlatList
-                data={apidata}
-                keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) => (
-                    <View style={styles.item}>
-                        <View>
-                            <Text>{item.name}</Text> 
-
-                        </View>
-
-                    </View>
-                )}
-            />
+            <Text>Dashboard</Text>
         </View>
+        // <View style={styles.container}>
+        //     <FlatList
+        //         data={apidata}
+        //         keyExtractor={(item) => item.id.toString()}
+        //         renderItem={({ item }) => (
+        //             <View style={styles.item}>
+        //                 <View>
+        //                     <Text>{item.name}</Text> 
+
+        //                 </View>
+
+        //             </View>
+        //         )}
+        //     />
+        // </View>
     );
 }
 
@@ -40,6 +43,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 10,
+        backgroundColor: "#000"
     },
     item: {
         padding: 10,
