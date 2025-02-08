@@ -58,8 +58,6 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0, // Full screen
     backgroundColor: "rgba(0, 0, 0, 0.6)", // Optional translucent overlay
-
-
   },
   headerpart: {
     paddingTop: 40,    
